@@ -25,6 +25,15 @@ public class SystemConstants {
      */
     public static final String LINK_DEL_NORMAL = "0";
 
+    /**
+     * 登录验证token
+     */
+    public static final String LOGIN_AUTHENTICATION_TOKEN = "token";
+
+    /**
+     * redis登录前缀
+     */
+    public static final String REDIS_LOGIN_PREFIX = "blog_login:";
 }
 
 

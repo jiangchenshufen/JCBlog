@@ -1,5 +1,6 @@
 package com.jiangchen.service.impl;
 
+import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.LoginUser;
 import com.jiangchen.domain.entity.User;
@@ -19,7 +20,6 @@ import org.springframework.util.ObjectUtils;
 @Service
 public class BlogLoginServiceImpl implements BlogLoginService {
 
-    private static final String REIDS_LOGIN_PREFIX = "bloglogin:";
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -39,7 +39,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         //生成token
         String token = JwtUtil.createJWT(userId);
         //存入redis
-        redisCache.setCacheObject(REIDS_LOGIN_PREFIX+userId,loginUser);
+        redisCache.setCacheObject(SystemConstants.REDIS_LOGIN_PREFIX +userId,loginUser);
         UserInfo userInfo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfo.class);
         return ResponseResult.okResult(new BlogUserLoginVo(token,userInfo));
     }
