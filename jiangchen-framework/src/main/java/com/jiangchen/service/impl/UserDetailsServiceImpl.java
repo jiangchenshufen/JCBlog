@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (ObjectUtils.isEmpty(user)){
             throw new RuntimeException("用户不存在");
         }
-        //TODO 查询权限信息
+        // TODO 查询权限信息
         return new LoginUser(user);
     }
 }
