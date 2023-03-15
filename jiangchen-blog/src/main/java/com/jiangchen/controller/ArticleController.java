@@ -43,6 +43,11 @@ public class ArticleController {
         return articleService.articleList(pageNum,pageSize,categoryId);
     }
 
+    /**
+     * 获取文章详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public ResponseResult getArticleDetail(@PathVariable("id") Long id){
         return articleService.getArticleDetail(id);
