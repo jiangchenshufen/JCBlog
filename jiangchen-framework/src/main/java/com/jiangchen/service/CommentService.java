@@ -2,6 +2,7 @@ package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.AddCommentDto;
 import com.jiangchen.domain.entity.Comment;
 
 
@@ -22,4 +23,5 @@ public interface CommentService extends IService<Comment> {
      */
     ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize);
 
+    ResponseResult addComment(AddCommentDto commentDto);
 }

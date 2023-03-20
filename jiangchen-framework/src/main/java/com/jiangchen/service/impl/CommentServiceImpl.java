@@ -4,15 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.AddCommentDto;
 import com.jiangchen.domain.entity.Comment;
 import com.jiangchen.domain.vo.CommentVo;
 import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.enums.AppHttpCodeEnum;
+import com.jiangchen.exception.SystemException;
 import com.jiangchen.mapper.CommentMapper;
 import com.jiangchen.service.CommentService;
 import com.jiangchen.service.UserService;
 import com.jiangchen.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -50,6 +55,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             commentVo.setChildren(children);
         });
         return ResponseResult.okResult(new PageVo(commentVos, page.getTotal()));
+    }
+
+    @Override
+    public ResponseResult addComment(AddCommentDto commentDto) {
+        //评论内容不能为空
+        if (!StringUtils.hasText(commentDto.getContent())){
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        }
+        Comment comment = BeanCopyUtils.copyBean(commentDto, Comment.class);
+        save(comment);
+        return ResponseResult.okResult();
     }
 
     /**
