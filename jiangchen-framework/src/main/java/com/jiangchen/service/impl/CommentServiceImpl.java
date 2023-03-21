@@ -3,6 +3,7 @@ package com.jiangchen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.AddCommentDto;
 import com.jiangchen.domain.entity.Comment;
@@ -16,11 +17,9 @@ import com.jiangchen.service.UserService;
 import com.jiangchen.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 
 /**
@@ -38,12 +37,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private UserService userService;
 
     @Override
-    public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize) {
+    public ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize) {
         //查询对应文章根评论
         LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
         //对articleId进行判断
-        wrapper.eq(Comment::getArticleId, articleId)
-                .eq(Comment::getRootId, CONSTANT_MINUS_ONE);
+        wrapper.eq(SystemConstants.ARTICLE_COMMENT.equals(commentType),Comment::getArticleId, articleId)
+                .eq(Comment::getRootId, CONSTANT_MINUS_ONE)
+                .eq(Comment::getType,commentType);
         Page<Comment> page = new Page<>(pageNum, pageSize);
         page(page, wrapper);
         //封装响应Vo

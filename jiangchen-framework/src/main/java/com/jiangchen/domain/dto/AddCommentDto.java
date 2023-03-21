@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class AddCommentDto {
     //文章id
     private Long articleId;
+    //评论类型
+    private String type;
     //根评论id
     private Long rootId;
     //回复目标评论id

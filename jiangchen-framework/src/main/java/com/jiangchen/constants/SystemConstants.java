@@ -34,6 +34,14 @@ public class SystemConstants {
      * redis登录前缀
      */
     public static final String REDIS_LOGIN_PREFIX = "blog_login:";
+    /**
+     * 类型为：文章评论
+     */
+    public static final String ARTICLE_COMMENT = "0";
+    /**
+     * 类型为：友链评论
+     */
+    public static final String LINK_COMMENT = "1";
 }
 
 
