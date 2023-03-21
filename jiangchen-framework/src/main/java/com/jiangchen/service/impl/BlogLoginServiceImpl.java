@@ -5,7 +5,7 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.LoginUser;
 import com.jiangchen.domain.entity.User;
 import com.jiangchen.domain.vo.BlogUserLoginVo;
-import com.jiangchen.domain.vo.UserInfo;
+import com.jiangchen.domain.vo.UserInfoVo;
 import com.jiangchen.service.BlogLoginService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.JwtUtil;
@@ -41,8 +41,8 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         String token = JwtUtil.createJWT(userId);
         //存入redis
         redisCache.setCacheObject(SystemConstants.REDIS_LOGIN_PREFIX +userId,loginUser);
-        UserInfo userInfo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfo.class);
-        return ResponseResult.okResult(new BlogUserLoginVo(token,userInfo));
+        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
+        return ResponseResult.okResult(new BlogUserLoginVo(token, userInfoVo));
     }
 
     @Override

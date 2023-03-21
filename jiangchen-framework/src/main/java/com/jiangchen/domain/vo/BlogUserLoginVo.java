@@ -11,6 +11,6 @@ public class BlogUserLoginVo {
 
     private String token;
 
-    private UserInfo userInfo;
+    private UserInfoVo userInfoVo;
 
 }
