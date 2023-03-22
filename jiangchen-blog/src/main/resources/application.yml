@@ -45,4 +45,9 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+oss:
+  accessKey: na476vpS5nrw6Oamv-lBAakhCznCbJmsMfbukYju
+  secretKey: bFhmXexuJHzm-2VBCtsH-z0njhl2CiwtcHQOMUuF
+  bucket: jiangc-blog
+  externalLinks : http://rrwt6lnib.bkt.clouddn.com/
 
