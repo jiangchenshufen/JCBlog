@@ -1,6 +1,7 @@
 package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -28,4 +29,13 @@ public class UserController {
         return userService.register(userRegisterDto);
     }
 
+    /**
+     * 修改用户信息
+     * @param updateUserInfoDto
+     * @return
+     */
+    @PutMapping("/userInfo")
+    public ResponseResult updateUserInfo(@RequestBody UpdateUserInfoDto updateUserInfoDto ){
+        return userService.updateUserInfo(updateUserInfoDto);
+    }
 }

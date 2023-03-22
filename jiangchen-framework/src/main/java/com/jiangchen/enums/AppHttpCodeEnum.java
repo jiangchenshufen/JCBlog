@@ -19,7 +19,8 @@ public enum AppHttpCodeEnum {
     PASSWORD_NOT_NULL(510, "密码不能为空"),
     EMAIL_NOT_NULL(511, "邮箱不能为空"),
     NICKNAME_EXIST(512, "昵称已存在"),
-    FILE_NOT_NULL(513,"文件不能为空");
+    FILE_NOT_NULL(513,"文件不能为空"),
+    AVATAR_NOT_NULL(514,"头像不能为空");
 
     int code;
     String msg;

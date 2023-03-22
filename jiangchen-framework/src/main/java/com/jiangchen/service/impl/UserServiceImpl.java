@@ -3,6 +3,7 @@ package com.jiangchen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.domain.entity.User;
 import com.jiangchen.domain.vo.UserInfoVo;
@@ -14,6 +15,7 @@ import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.SecurityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -51,6 +53,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userRegisterDto.setPassword(encodePassword);
         User user = BeanCopyUtils.copyBean(userRegisterDto, User.class);
         save(user);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateUserInfo(UpdateUserInfoDto updateUserInfoDto) {
+        if (ObjectUtils.isEmpty(updateUserInfoDto.getAvatar())) {
+            throw new SystemException(AppHttpCodeEnum.AVATAR_NOT_NULL);
+        }
+        if (ObjectUtils.isEmpty(updateUserInfoDto.getNickName())) {
+            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        }
+        User user = BeanCopyUtils.copyBean(updateUserInfoDto, User.class);
+        updateById(user);
         return ResponseResult.okResult();
     }
 
