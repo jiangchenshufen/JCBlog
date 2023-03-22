@@ -1,10 +1,9 @@
 package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -15,9 +14,18 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    /**
+     * 显示用户信息
+     * @return
+     */
     @GetMapping("/userInfo")
     public ResponseResult userInfo(){
         return userService.userInfo();
+    }
+
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody UserRegisterDto userRegisterDto){
+        return userService.register(userRegisterDto);
     }
 
 }

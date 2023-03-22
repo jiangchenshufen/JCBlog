@@ -2,6 +2,7 @@ package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.domain.entity.User;
 
 
@@ -14,4 +15,12 @@ import com.jiangchen.domain.entity.User;
 public interface UserService extends IService<User> {
 
     ResponseResult userInfo();
+
+
+    /**
+     * 用户注册
+     * @param userRegisterDto
+     * @return
+     */
+    ResponseResult register(UserRegisterDto userRegisterDto);
 }
