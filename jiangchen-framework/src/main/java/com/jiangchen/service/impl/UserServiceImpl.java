@@ -37,8 +37,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //根据用户id查询用户
         User user = getById(userId);
         //封装成UserInfoVo
-        UserInfoVo userInfo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
-        return ResponseResult.okResult(userInfo);
+        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
+        return ResponseResult.okResult(userInfoVo);
     }
 
     @Override
