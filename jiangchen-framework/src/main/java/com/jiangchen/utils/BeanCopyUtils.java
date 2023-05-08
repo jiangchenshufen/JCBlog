@@ -1,7 +1,5 @@
 package com.jiangchen.utils;
 
-import com.jiangchen.domain.entity.Article;
-import com.jiangchen.domain.vo.HotArticleVo;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -33,15 +31,5 @@ public class BeanCopyUtils {
                 .map(o -> copyBean(o, clazz))
                 .collect(Collectors.toList());
     }
-
-
-//    public static void main(String[] args) {
-//
-//        Article article = new Article();
-//        article.setId(1L);
-//        article.setViewCount(99L);
-//        HotArticleVo articleVo = copyBean(article, HotArticleVo.class);
-//        System.out.println(articleVo);
-//    }
 
 }

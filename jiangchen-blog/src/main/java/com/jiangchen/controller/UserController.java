@@ -1,5 +1,6 @@
 package com.jiangchen.controller;
 
+import com.jiangchen.annotation.SystemLog;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
@@ -35,6 +36,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/userInfo")
+    @SystemLog(businessName = "更新用户信息")
     public ResponseResult updateUserInfo(@RequestBody UpdateUserInfoDto updateUserInfoDto ){
         return userService.updateUserInfo(updateUserInfoDto);
     }
