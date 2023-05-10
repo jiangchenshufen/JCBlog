@@ -1,5 +1,6 @@
 package com.jiangchen.utils;
 
+import com.jiangchen.domain.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
@@ -234,5 +235,17 @@ public class RedisCache
     public Collection<String> keys(final String pattern)
     {
         return redisTemplate.keys(pattern);
+    }
+
+    /**
+     * 递增缓存映射值
+     *
+     * @param key Redis键
+     * @param hKey Hash键
+     * @param v
+     */
+    public ResponseResult incrementCacheMapValue(String key, String hKey, int v){
+        redisTemplate.boundHashOps(key).increment(hKey,v);
+        return ResponseResult.okResult();
     }
 }

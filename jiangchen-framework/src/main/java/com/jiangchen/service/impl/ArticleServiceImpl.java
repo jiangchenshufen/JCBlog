@@ -15,12 +15,16 @@ import com.jiangchen.mapper.ArticleMapper;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.service.CategoryService;
 import com.jiangchen.utils.BeanCopyUtils;
+import com.jiangchen.utils.RedisCache;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +32,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private CategoryService categoryService;
+    @Resource
+    private RedisCache redisCache;
 
     @Override
     public ResponseResult hotArticleList() {
@@ -42,6 +48,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page(page,queryWrapper);
 
         List<Article> articles = page.getRecords();
+        //修改文章浏览量从redis中获取
+        articles.stream().forEach(article -> {
+            Integer value = redisCache.getCacheMapValue(SystemConstants.REDIS_ARTICLE_VIEWS, article.getId().toString());
+            article.setViewCount(value.longValue());
+        });
         //bean拷贝
 //        List<HotArticleVo> articleVos = new ArrayList<>();
 //        for (Article article : articles) {
@@ -69,6 +80,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page(page,lambdaQueryWrapper);
 
         List<Article> articles = page.getRecords();
+        //修改文章浏览量从redis中获取
+        articles.stream().forEach(article -> {
+            Integer value = redisCache.getCacheMapValue(SystemConstants.REDIS_ARTICLE_VIEWS, article.getId().toString());
+            article.setViewCount(value.longValue());
+        });
         //查询categoryName
         List<Article> collect = articles.stream()
                 .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
@@ -95,6 +111,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ResponseResult getArticleDetail(Long id) {
         //根据id查询article列表
         Article article = getById(id);
+        //查询redis的文章浏览量
+        Integer newViewCount = redisCache.getCacheMapValue(SystemConstants.REDIS_ARTICLE_VIEWS, id.toString());
+        article.setViewCount(newViewCount.longValue());
         //返回vo
         ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
         //根据categoryId查询categoryName
@@ -103,6 +122,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleDetailVo.setCategoryName(category.getName());
         }
         return ResponseResult.okResult(articleDetailVo);
+    }
+
+    @Override
+    public ResponseResult updateViewCount(Long id) {
+         //更新redis中对应id的浏览量
+        redisCache.incrementCacheMapValue(SystemConstants.REDIS_ARTICLE_VIEWS,id.toString(),1);
+        return ResponseResult.okResult();
     }
 }
 

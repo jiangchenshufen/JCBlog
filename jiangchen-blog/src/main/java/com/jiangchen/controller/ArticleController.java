@@ -1,20 +1,43 @@
 package com.jiangchen.controller;
 
+import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.service.ArticleService;
+import com.jiangchen.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
 
+    /**
+     * 读取浏览量写入redis
+     */
+    @PostConstruct
+    public void init(){
+        List<Article> list = articleService.list();
+        Map<String, Integer> viewCountMap = list.stream()
+                .collect(Collectors.toMap(article -> article.getId().toString(),
+                        article -> article.getViewCount().intValue()));
+        //存储到redis
+        redisCache.setCacheMap(SystemConstants.REDIS_ARTICLE_VIEWS,viewCountMap);
+
+    }
+
     @Autowired
     private ArticleService articleService;
+
+    @Resource
+    private RedisCache redisCache;
 
 //    @GetMapping("/list")
 //    public List<Article> test(){
@@ -53,4 +76,8 @@ public class ArticleController {
         return articleService.getArticleDetail(id);
     }
 
+    @PutMapping("/updateViewCount/{id}")
+    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+        return articleService.updateViewCount(id);
+    }
 }
