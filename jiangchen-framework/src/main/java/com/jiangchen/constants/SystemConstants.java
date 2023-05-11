@@ -31,7 +31,7 @@ public class SystemConstants {
     public static final String LOGIN_AUTHENTICATION_TOKEN = "token";
 
     /**
-     * redis登录前缀
+     * redis前台登录前缀
      */
     public static final String REDIS_LOGIN_PREFIX = "blog_login:";
     /**
@@ -46,6 +46,10 @@ public class SystemConstants {
      * redis文章浏览量
      */
     public static  final  String REDIS_ARTICLE_VIEWS = "article:viewCount";
+    /**
+     * redis后台登录前缀
+     */
+    public static final String REDIS_ADMIN_LOGIN_PREFIX = "admin_login:";
 }
 
 
