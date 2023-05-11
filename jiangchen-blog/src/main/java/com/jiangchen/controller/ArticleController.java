@@ -5,6 +5,7 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.utils.RedisCache;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/article")
+@Api(tags = "文章",description = "文章相关接口")
 public class ArticleController {
 
     /**

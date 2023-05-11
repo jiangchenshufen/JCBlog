@@ -5,12 +5,14 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户",description = "用户相关接口")
 public class UserController {
 
     @Resource
