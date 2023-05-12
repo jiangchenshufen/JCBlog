@@ -50,6 +50,18 @@ public class SystemConstants {
      * redis后台登录前缀
      */
     public static final String REDIS_ADMIN_LOGIN_PREFIX = "admin_login:";
+    /**
+     * menu菜单
+     */
+    public static final String MENU = "C";
+    /**
+     * menu按钮
+     */
+    public static final String BUTTON = "F";
+    /**
+     * 角色权限字符
+     */
+    public static final String ROLE_KEY = "admin";
 }
 
 
