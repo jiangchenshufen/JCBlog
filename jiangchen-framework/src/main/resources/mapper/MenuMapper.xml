@@ -30,6 +30,8 @@
         WHERE m.menu_type IN ('C', 'M')
           AND m.`status` = 0
           AND m.del_flag = 0
+        ORDER BY
+            m.parent_id,m.order_num
     </select>
     <select id="selectRouterMenuTreeByUserId" resultType="com.jiangchen.domain.vo.MenuVo">
         SELECT DISTINCT m.id,
@@ -53,5 +55,7 @@
           AND m.menu_type IN ('C', 'M')
           AND m.`status` = 0
           AND m.del_flag = 0
+        ORDER BY
+            m.parent_id,m.order_num
     </select>
 </mapper>
