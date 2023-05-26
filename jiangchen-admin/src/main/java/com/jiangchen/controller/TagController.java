@@ -3,6 +3,7 @@ package com.jiangchen.controller;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.TagListDto;
 import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.domain.vo.TagListVo;
 import com.jiangchen.service.TagService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -33,4 +34,17 @@ public class TagController {
     public ResponseResult deleteTag(@PathVariable("id") Long id){
         return tagService.deleteTagById(id);
     }
+
+    @ApiOperation("根据id获取标签信息")
+    @GetMapping("{id}")
+    public ResponseResult getTagInfo(@PathVariable("id") Long id){
+        return tagService.getTagInfo(id);
+    }
+
+    @ApiOperation("修改标签信息")
+    @PutMapping()
+    public ResponseResult updateTagInfo(@RequestBody TagListVo tagListVo){
+        return tagService.updateTagInfo(tagListVo);
+    }
+
 }

@@ -31,7 +31,8 @@ import java.util.List;
  */
 @Service("tagService")
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
-
+    @Resource
+    private TagService tagService;
     @Override
     public ResponseResult<PageVo> pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
@@ -75,6 +76,35 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     public ResponseResult deleteTagById(Long id) {
         int delete = getBaseMapper().deleteById(id);
         if (delete > 0){
+            return ResponseResult.okResult();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResponseResult getTagInfo(Long id) {
+        Tag tag = getBaseMapper().selectById(id);
+        TagListVo tagListVo = BeanCopyUtils.copyBean(tag, TagListVo.class);
+        return ResponseResult.okResult(tagListVo);
+    }
+
+    @Override
+    public ResponseResult updateTagInfo(TagListVo tagListVo) {
+        if (ObjectUtils.isEmpty(tagListVo.getName())){
+            throw new RuntimeException(AppHttpCodeEnum.TAG_NAME_NOT_NULL.getMsg());
+        }
+        if (ObjectUtils.isEmpty(tagListVo.getRemark())){
+            throw new RuntimeException(AppHttpCodeEnum.TAG_REMARK_NOT_NULL.getMsg());
+        }
+        Tag tag = new Tag();
+        Long userId = SecurityUtils.getUserId();
+        tag.setId(tagListVo.getId());
+        tag.setName(tagListVo.getName());
+        tag.setCreateBy(userId);
+        tag.setUpdateBy(userId);
+        tag.setUpdateTime(new Date());
+        tag.setRemark(tagListVo.getRemark());
+        if (tagService.updateById(tag)){
             return ResponseResult.okResult();
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);

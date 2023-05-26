@@ -5,6 +5,7 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.TagListDto;
 import com.jiangchen.domain.entity.Tag;
 import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.domain.vo.TagListVo;
 
 
 /**
@@ -30,5 +31,19 @@ public interface TagService extends IService<Tag> {
      * @return
      */
     ResponseResult deleteTagById(Long id);
+
+    /**
+     * 根据id获取标签信息
+     * @param id
+     * @return
+     */
+    ResponseResult getTagInfo(Long id);
+
+    /**
+     * 修改标签信息
+     * @param tagListVo
+     * @return
+     */
+    ResponseResult updateTagInfo(TagListVo tagListVo);
 }
 
