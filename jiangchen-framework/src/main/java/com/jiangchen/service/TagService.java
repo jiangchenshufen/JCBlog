@@ -23,5 +23,12 @@ public interface TagService extends IService<Tag> {
      * @return
      */
     ResponseResult addTag(TagListDto tagListDto);
+
+    /**
+     * 根据标签id删除
+     * @param id
+     * @return
+     */
+    ResponseResult deleteTagById(Long id);
 }
 

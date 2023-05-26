@@ -70,5 +70,14 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
+
+    @Override
+    public ResponseResult deleteTagById(Long id) {
+        int delete = getBaseMapper().deleteById(id);
+        if (delete > 0){
+            return ResponseResult.okResult();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
 }
 
