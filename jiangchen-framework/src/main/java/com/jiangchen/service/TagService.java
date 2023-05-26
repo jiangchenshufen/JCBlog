@@ -1,7 +1,10 @@
 package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.TagListDto;
 import com.jiangchen.domain.entity.Tag;
+import com.jiangchen.domain.vo.PageVo;
 
 
 /**
@@ -12,5 +15,6 @@ import com.jiangchen.domain.entity.Tag;
  */
 public interface TagService extends IService<Tag> {
 
+    ResponseResult<PageVo> pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
 }
 
