@@ -1,5 +1,6 @@
 package com.jiangchen.controller;
 
+import com.jiangchen.annotation.SystemLog;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.LoginUser;
 import com.jiangchen.domain.entity.User;
@@ -15,6 +16,7 @@ import com.jiangchen.service.RoleService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.SecurityUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +49,7 @@ public class AdminLoginController {
     }
 
     @GetMapping("/getInfo")
+    @SystemLog(businessName = "获取用户信息")
     public ResponseResult<AdminUserInfoVo> getInfo(){
         //获取当前登录的用户
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -61,10 +64,19 @@ public class AdminLoginController {
     }
 
     @GetMapping("/getRouters")
+    @SystemLog(businessName = "获取权限路由")
     public ResponseResult<RoutersVo> getRouters() {
         Long userId = SecurityUtils.getUserId();
         //查询menu 结构是tree的形式
         //封装数据返回
         return ResponseResult.okResult(new RoutersVo(menuService.selectRouterMenuTreeByUserId(userId)));
     }
+
+    @PostMapping("/user/logout")
+    @SystemLog(businessName = "后台退出登录接口")
+    @ApiOperation(value = "后台退出登录",notes = "后台退出登录")
+    public ResponseResult logout(){
+        return adminLoginService.logout();
+    }
+
 }

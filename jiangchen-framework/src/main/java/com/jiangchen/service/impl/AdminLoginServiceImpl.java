@@ -11,6 +11,7 @@ import com.jiangchen.service.BlogLoginService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.JwtUtil;
 import com.jiangchen.utils.RedisCache;
+import com.jiangchen.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +49,13 @@ public class AdminLoginServiceImpl implements AdminLoginService {
         HashMap<String, String> map = new HashMap<>();
         map.put(SystemConstants.LOGIN_AUTHENTICATION_TOKEN,token);
         return ResponseResult.okResult(map);
+    }
+
+    @Override
+    public ResponseResult logout() {
+        Long userId = SecurityUtils.getUserId();
+        redisCache.deleteObject(SystemConstants.REDIS_ADMIN_LOGIN_PREFIX + userId);
+        return ResponseResult.okResult();
     }
 
 }
