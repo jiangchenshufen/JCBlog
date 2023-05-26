@@ -16,5 +16,12 @@ import com.jiangchen.domain.vo.PageVo;
 public interface TagService extends IService<Tag> {
 
     ResponseResult<PageVo> pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
+
+    /**
+     * 新增标签
+     * @param tagListDto
+     * @return
+     */
+    ResponseResult addTag(TagListDto tagListDto);
 }
 
