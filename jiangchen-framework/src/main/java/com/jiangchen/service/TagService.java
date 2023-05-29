@@ -45,5 +45,11 @@ public interface TagService extends IService<Tag> {
      * @return
      */
     ResponseResult updateTagInfo(TagListVo tagListVo);
+
+    /**
+     * 获取所有标签
+     * @return
+     */
+    ResponseResult listAllTag();
 }
 

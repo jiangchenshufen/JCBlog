@@ -46,5 +46,10 @@ public class TagController {
     public ResponseResult updateTagInfo(@RequestBody TagListVo tagListVo){
         return tagService.updateTagInfo(tagListVo);
     }
+    @ApiOperation("获取所有标签")
+    @GetMapping("/listAllTag")
+    public ResponseResult listAllTag(){
+        return tagService.listAllTag();
+    }
 
 }

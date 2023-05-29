@@ -8,6 +8,7 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.TagListDto;
 import com.jiangchen.domain.entity.Tag;
 import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.domain.vo.TagAllVo;
 import com.jiangchen.domain.vo.TagListVo;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.mapper.TagMapper;
@@ -108,6 +109,12 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
             return ResponseResult.okResult();
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResponseResult<TagAllVo> listAllTag() {
+        List<TagAllVo> tagAllVos = BeanCopyUtils.copyBeanList(tagService.list(), TagAllVo.class);
+        return ResponseResult.okResult(tagAllVos);
     }
 }
 
