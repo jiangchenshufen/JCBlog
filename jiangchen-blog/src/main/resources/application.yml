@@ -50,8 +50,8 @@ mybatis-plus:
       logic-not-delete-value: 0
       id-type: auto
 oss:
-  accessKey: na476vpS5nrw6Oamv-lBAakhCznCbJmsMfbukYju
-  secretKey: bFhmXexuJHzm-2VBCtsH-z0njhl2CiwtcHQOMUuF
-  bucket: jiangc-blog
-  externalLinks : http://rrwt6lnib.bkt.clouddn.com/
+  accessKey: kqJPhEQlWdrtqTWMsyJfnVKC8YCtkOXaIAHGXJvX
+  secretKey: nqgM8EuDFATOmQmCmeuu5RBF0nxjATiQVxF5B0Ey
+  bucket: boot-blog
+  externalLinks : http://rvewb0791.bkt.clouddn.com/
 
