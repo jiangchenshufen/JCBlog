@@ -62,6 +62,10 @@ public class SystemConstants {
      * 角色权限字符
      */
     public static final String ROLE_KEY = "admin";
+    /**
+     * 正常状态
+     */
+    public static final String NORMAL = "0";
 }
 
 

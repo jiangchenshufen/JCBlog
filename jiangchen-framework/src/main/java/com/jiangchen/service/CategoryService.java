@@ -14,4 +14,11 @@ import com.jiangchen.domain.entity.Category;
 public interface CategoryService extends IService<Category> {
 
     ResponseResult getCategoryList();
+
+    /**
+     * 获取全部分类
+     * @return
+     */
+    ResponseResult listAllCategory();
+
 }

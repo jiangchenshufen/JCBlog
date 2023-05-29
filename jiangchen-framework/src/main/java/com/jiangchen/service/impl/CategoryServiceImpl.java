@@ -7,6 +7,7 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.domain.entity.Category;
 import com.jiangchen.domain.vo.CategoryVo;
+import com.jiangchen.domain.vo.ContentCategoryVo;
 import com.jiangchen.mapper.CategoryMapper;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.utils.BeanCopyUtils;
@@ -50,5 +51,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(categories, CategoryVo.class);
 
         return ResponseResult.okResult(categoryVos);
+    }
+
+    @Override
+    public ResponseResult<ContentCategoryVo> listAllCategory() {
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getStatus,SystemConstants.NORMAL);
+        List<ContentCategoryVo> contentCategoryVos = BeanCopyUtils.copyBeanList(list(wrapper), ContentCategoryVo.class);
+        return ResponseResult.okResult(contentCategoryVos);
     }
 }
