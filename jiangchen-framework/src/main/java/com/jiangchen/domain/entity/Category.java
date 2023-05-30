@@ -2,6 +2,10 @@ package com.jiangchen.domain.entity;
 
 
 import java.io.Serializable;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,14 +34,14 @@ public class Category  {
     private String description;
     //状态0:正常,1禁用
     private String status;
-    
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
-    
-    private String createTime;
-    
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
-    
-    private String updateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
 

@@ -47,4 +47,10 @@ public class CategoryController {
     public ResponseResult updateCategory(@RequestBody UpdateCategoryDto updateCategoryDto){
         return categoryService.updateCategory(updateCategoryDto);
     }
+
+    @ApiOperation("删除分类")
+    @DeleteMapping({"{id}"})
+    public ResponseResult delCategoryById(@PathVariable("id") Long id){
+        return categoryService.delCategoryById(id);
+    }
 }

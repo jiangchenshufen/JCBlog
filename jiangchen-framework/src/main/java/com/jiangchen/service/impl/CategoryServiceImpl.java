@@ -101,4 +101,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Category category = getBaseMapper().selectById(id);
         return ResponseResult.okResult(BeanCopyUtils.copyBean(category, CategoryInfoVo.class));
     }
+
+    @Override
+    public ResponseResult delCategoryById(Long id) {
+        if (!(getBaseMapper().deleteById(id) > 0)){
+            throw new RuntimeException("删除失败");
+        }
+        return ResponseResult.okResult();
+    }
 }
