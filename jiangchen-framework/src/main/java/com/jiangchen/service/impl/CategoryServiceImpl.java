@@ -5,13 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.UpdateCategoryDto;
 import com.jiangchen.domain.dto.addCategoryDto;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.domain.entity.Category;
-import com.jiangchen.domain.vo.CategoryListVo;
-import com.jiangchen.domain.vo.CategoryVo;
-import com.jiangchen.domain.vo.ContentCategoryVo;
-import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.domain.vo.*;
 import com.jiangchen.mapper.CategoryMapper;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.utils.BeanCopyUtils;
@@ -82,5 +80,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             throw new RuntimeException("新增分类失败");
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateCategory(UpdateCategoryDto updateCategoryDto) {
+        Category category = BeanCopyUtils.copyBean(updateCategoryDto, Category.class);
+        if (!updateById(category)){
+            throw new RuntimeException("修改失败");
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult selectCategoryById(Long id) {
+        Category category = getBaseMapper().selectById(id);
+        return ResponseResult.okResult(BeanCopyUtils.copyBean(category, CategoryInfoVo.class));
     }
 }

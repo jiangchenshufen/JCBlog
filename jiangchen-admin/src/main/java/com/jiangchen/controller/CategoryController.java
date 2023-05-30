@@ -1,6 +1,7 @@
 package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.UpdateCategoryDto;
 import com.jiangchen.domain.dto.addCategoryDto;
 import com.jiangchen.service.CategoryService;
 import io.swagger.annotations.ApiOperation;
@@ -32,5 +33,18 @@ public class CategoryController {
     @PostMapping
     public ResponseResult addCategory(@RequestBody addCategoryDto addCategoryDto){
         return categoryService.addCategory(addCategoryDto);
+    }
+
+    @ApiOperation("根据id查询分类")
+    @GetMapping("{id}")
+    public ResponseResult selectCategoryById(@PathVariable("id") Long id){
+        return categoryService.selectCategoryById(id);
+    }
+
+
+    @ApiOperation("修改分类")
+    @PutMapping
+    public ResponseResult updateCategory(@RequestBody UpdateCategoryDto updateCategoryDto){
+        return categoryService.updateCategory(updateCategoryDto);
     }
 }
