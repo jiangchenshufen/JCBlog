@@ -2,6 +2,7 @@ package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.addCategoryDto;
 import com.jiangchen.domain.entity.Category;
 
 
@@ -28,4 +29,11 @@ public interface CategoryService extends IService<Category> {
      * @return
      */
     ResponseResult showCategoryList(Integer pageNum, Integer pageSize);
+
+    /**
+     * 新增文章分类
+      * @param addCategoryDto
+     * @return
+     */
+    ResponseResult addCategory(addCategoryDto addCategoryDto);
 }

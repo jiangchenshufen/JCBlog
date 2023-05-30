@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.addCategoryDto;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.domain.entity.Category;
 import com.jiangchen.domain.vo.CategoryListVo;
@@ -72,5 +73,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         page(page);
         List<CategoryListVo> categoryListVos = BeanCopyUtils.copyBeanList(page.getRecords(), CategoryListVo.class);
         return ResponseResult.okResult(new PageVo(categoryListVos,page.getTotal()));
+    }
+
+    @Override
+    public ResponseResult addCategory(addCategoryDto addCategoryDto) {
+        Category category = BeanCopyUtils.copyBean(addCategoryDto, Category.class);
+        if (!save(category)){
+            throw new RuntimeException("新增分类失败");
+        }
+        return ResponseResult.okResult();
     }
 }
