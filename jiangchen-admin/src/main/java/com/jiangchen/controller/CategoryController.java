@@ -25,8 +25,8 @@ public class CategoryController {
 
     @ApiOperation("分类列表")
     @GetMapping("/list")
-    public ResponseResult List(Integer pageNum, Integer pageSize){
-        return categoryService.showCategoryList(pageNum,pageSize);
+    public ResponseResult List(Integer pageNum, Integer pageSize,String name,String status){
+        return categoryService.showCategoryList(pageNum,pageSize,name,status);
     }
 
     @ApiOperation("添加分类")

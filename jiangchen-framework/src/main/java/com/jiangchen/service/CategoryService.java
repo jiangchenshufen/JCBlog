@@ -25,11 +25,14 @@ public interface CategoryService extends IService<Category> {
 
     /**
      * 分类管理分页显示
+     *
      * @param pageNum
      * @param pageSize
+     * @param name
+     * @param status
      * @return
      */
-    ResponseResult showCategoryList(Integer pageNum, Integer pageSize);
+    ResponseResult showCategoryList(Integer pageNum, Integer pageSize, String name, String status);
 
     /**
      * 新增文章分类

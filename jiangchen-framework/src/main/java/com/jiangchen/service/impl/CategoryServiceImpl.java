@@ -16,8 +16,10 @@ import com.jiangchen.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jiangchen.service.CategoryService;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -64,11 +66,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public ResponseResult showCategoryList(Integer pageNum, Integer pageSize) {
+    public ResponseResult showCategoryList(Integer pageNum, Integer pageSize, String name, String status) {
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(!ObjectUtils.isEmpty(name),Category::getName,name);
+        wrapper.eq(!ObjectUtils.isEmpty(status),Category::getStatus,status);
         Page<Category> page = new Page<>();
         page.setCurrent(pageNum);
         page.setSize(pageSize);
-        page(page);
+        page(page,wrapper);
         List<CategoryListVo> categoryListVos = BeanCopyUtils.copyBeanList(page.getRecords(), CategoryListVo.class);
         return ResponseResult.okResult(new PageVo(categoryListVos,page.getTotal()));
     }
