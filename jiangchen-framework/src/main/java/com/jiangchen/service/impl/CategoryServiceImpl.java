@@ -1,13 +1,16 @@
 package com.jiangchen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.domain.entity.Category;
+import com.jiangchen.domain.vo.CategoryListVo;
 import com.jiangchen.domain.vo.CategoryVo;
 import com.jiangchen.domain.vo.ContentCategoryVo;
+import com.jiangchen.domain.vo.PageVo;
 import com.jiangchen.mapper.CategoryMapper;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.utils.BeanCopyUtils;
@@ -59,5 +62,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         wrapper.eq(Category::getStatus,SystemConstants.NORMAL);
         List<ContentCategoryVo> contentCategoryVos = BeanCopyUtils.copyBeanList(list(wrapper), ContentCategoryVo.class);
         return ResponseResult.okResult(contentCategoryVos);
+    }
+
+    @Override
+    public ResponseResult showCategoryList(Integer pageNum, Integer pageSize) {
+        Page<Category> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page);
+        List<CategoryListVo> categoryListVos = BeanCopyUtils.copyBeanList(page.getRecords(), CategoryListVo.class);
+        return ResponseResult.okResult(new PageVo(categoryListVos,page.getTotal()));
     }
 }

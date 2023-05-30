@@ -21,4 +21,11 @@ public interface CategoryService extends IService<Category> {
      */
     ResponseResult listAllCategory();
 
+    /**
+     * 分类管理分页显示
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    ResponseResult showCategoryList(Integer pageNum, Integer pageSize);
 }

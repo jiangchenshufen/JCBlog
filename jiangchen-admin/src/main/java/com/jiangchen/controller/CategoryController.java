@@ -22,4 +22,10 @@ public class CategoryController {
     public ResponseResult listAllCategory(){
         return categoryService.listAllCategory();
     }
+
+    @ApiOperation("分类列表")
+    @GetMapping("/list")
+    public ResponseResult List(Integer pageNum, Integer pageSize){
+        return categoryService.showCategoryList(pageNum,pageSize);
+    }
 }
