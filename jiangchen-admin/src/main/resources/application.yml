@@ -45,3 +45,8 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+oss:
+  accessKey: kqJPhEQlWdrtqTWMsyJfnVKC8YCtkOXaIAHGXJvX
+  secretKey: nqgM8EuDFATOmQmCmeuu5RBF0nxjATiQVxF5B0Ey
+  bucket: boot-blog
+  externalLinks : http://rvewb0791.bkt.clouddn.com/
