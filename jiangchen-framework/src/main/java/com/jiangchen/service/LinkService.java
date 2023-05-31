@@ -14,4 +14,15 @@ import com.jiangchen.domain.entity.Link;
 public interface LinkService extends IService<Link> {
 
     ResponseResult getAllLink();
+
+    /**
+     * 友链分页查询
+     * 模糊搜素
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @param status
+     * @return
+     */
+    ResponseResult adminLinkList(Integer pageNum, Integer pageSize, String name, String status);
 }
