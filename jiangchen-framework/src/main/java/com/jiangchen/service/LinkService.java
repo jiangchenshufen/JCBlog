@@ -30,8 +30,15 @@ public interface LinkService extends IService<Link> {
 
     /**
      * 新增友链
-     * @param linkAdminDto
+     * @param linkAddDto
      * @return
      */
     ResponseResult addLink(LinkAddDto linkAddDto);
+
+    /**
+     * 根据id查询友链信息
+     * @param id
+     * @return
+     */
+    ResponseResult selectLinkById(Long id);
 }

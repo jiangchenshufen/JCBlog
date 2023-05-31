@@ -27,4 +27,10 @@ public class LinkController {
         return linkService.addLink(linkAddDto);
     }
 
+    @ApiOperation("根据id查询友链信息")
+    @GetMapping("{id}")
+    public ResponseResult selectLinkById(@PathVariable("id") Long id){
+        return linkService.selectLinkById(id);
+    }
+
 }

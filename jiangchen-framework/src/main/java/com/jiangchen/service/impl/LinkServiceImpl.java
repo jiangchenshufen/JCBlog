@@ -61,4 +61,11 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         }
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult selectLinkById(Long id) {
+        Link link = getById(id);
+        LinkAdminVo linkAdminVo = BeanCopyUtils.copyBean(link, LinkAdminVo.class);
+        return ResponseResult.okResult(linkAdminVo);
+    }
 }
