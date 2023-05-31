@@ -11,6 +11,7 @@ import com.jiangchen.domain.entity.ArticleTag;
 import com.jiangchen.domain.entity.Category;
 import com.jiangchen.domain.vo.*;
 import com.jiangchen.mapper.ArticleMapper;
+import com.jiangchen.mapper.ArticleTagMapper;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.service.ArticleTagService;
 import com.jiangchen.service.CategoryService;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -36,6 +38,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Resource
     private ArticleTagService articleTagService;
+
+    @Resource
+    private ArticleTagMapper articleTagMapper;
 
     @Override
     public ResponseResult hotArticleList() {
@@ -174,6 +179,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         ArticleShowVo articleShowVo = BeanCopyUtils.copyBean(article, ArticleShowVo.class);
         articleShowVo.setTags(tags);
         return ResponseResult.okResult(articleShowVo);
+    }
+
+    @Override
+    public ResponseResult putArticle(ArticleShowVo articleShowDto) {
+        Article article = BeanCopyUtils.copyBean(articleShowDto, Article.class);
+        if (!updateById(article)) throw new RuntimeException("文章保存失败");
+        ArrayList<ArticleTag> articleTags = new ArrayList<>();
+        articleShowDto.getTags().forEach(tagId -> articleTags.add(new ArticleTag(articleShowDto.getId(), tagId)));
+        //if (!articleTagService.saveOrUpdateBatch(articleTags)) throw new RuntimeException("Tags保存失败");
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId,articleShowDto.getId());
+        articleTagMapper.delete(queryWrapper);
+        if (!articleTagService.saveBatch(articleTags)) throw new RuntimeException("Tags保存失败");
+        return ResponseResult.okResult();
     }
 }
 

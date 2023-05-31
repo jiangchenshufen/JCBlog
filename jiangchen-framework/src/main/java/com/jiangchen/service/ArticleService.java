@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.AddArticleDto;
 import com.jiangchen.domain.entity.Article;
+import com.jiangchen.domain.vo.ArticleShowVo;
 
 public interface ArticleService extends IService<Article> {
     ResponseResult hotArticleList();
@@ -39,4 +40,11 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     ResponseResult selectArticleById(Integer id);
+
+    /**
+     * 更新文章
+     * @param articleShowDto
+     * @return
+     */
+    ResponseResult putArticle(ArticleShowVo articleShowDto);
 }

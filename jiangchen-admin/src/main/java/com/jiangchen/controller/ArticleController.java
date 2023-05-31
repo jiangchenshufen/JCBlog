@@ -2,6 +2,7 @@ package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.AddArticleDto;
+import com.jiangchen.domain.vo.ArticleShowVo;
 import com.jiangchen.service.ArticleService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
@@ -38,6 +39,12 @@ public class ArticleController {
     @GetMapping("{id}")
     public ResponseResult selectArticleById(@PathVariable("id") Integer id){
         return articleService.selectArticleById(id);
+    }
+
+    @ApiOperation("更新文章")
+    @PutMapping()
+    public ResponseResult putArticle(@RequestBody ArticleShowVo articleShowDto){
+        return articleService.putArticle(articleShowDto);
     }
 
 }
