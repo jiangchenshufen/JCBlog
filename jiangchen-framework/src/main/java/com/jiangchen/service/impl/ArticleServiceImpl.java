@@ -9,17 +9,13 @@ import com.jiangchen.domain.dto.AddArticleDto;
 import com.jiangchen.domain.entity.Article;
 import com.jiangchen.domain.entity.ArticleTag;
 import com.jiangchen.domain.entity.Category;
-import com.jiangchen.domain.vo.ArticleDetailVo;
-import com.jiangchen.domain.vo.ArticleListVo;
-import com.jiangchen.domain.vo.HotArticleVo;
-import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.domain.vo.*;
 import com.jiangchen.mapper.ArticleMapper;
 import com.jiangchen.service.ArticleService;
 import com.jiangchen.service.ArticleTagService;
 import com.jiangchen.service.CategoryService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.RedisCache;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -27,7 +23,6 @@ import org.springframework.util.ObjectUtils;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
@@ -146,6 +141,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .collect(Collectors.toList());
         articleTagService.saveBatch(collect);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult articleAdminList(Integer pageNum, Integer pageSize, String title, String summary) {
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(!ObjectUtils.isEmpty(title),Article::getTitle,title);
+        wrapper.eq(!ObjectUtils.isEmpty(summary),Article::getSummary,summary);
+        Page<Article> page = new Page<>();
+        page.setCurrent(pageNum).setSize(pageSize);
+        page(page,wrapper);
+        List<ArticleAdminListVo> articleAdminListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleAdminListVo.class);
+        return ResponseResult.okResult(new PageVo(articleAdminListVos,page.getTotal()));
     }
 }
 

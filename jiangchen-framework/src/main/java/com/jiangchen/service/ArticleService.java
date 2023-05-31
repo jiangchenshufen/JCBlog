@@ -15,4 +15,14 @@ public interface ArticleService extends IService<Article> {
     ResponseResult updateViewCount(Long id);
 
     ResponseResult addArticle(AddArticleDto addArticleDto);
+
+    /**
+     * 后台文章列表
+     * @param pageNum
+     * @param pageSize
+     * @param title
+     * @param summary
+     * @return
+     */
+    ResponseResult articleAdminList(Integer pageNum, Integer pageSize, String title, String summary);
 }

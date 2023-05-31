@@ -4,10 +4,8 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.AddArticleDto;
 import com.jiangchen.service.ArticleService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.models.auth.In;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -22,6 +20,12 @@ public class ArticleController {
     @ApiOperation("编写文章")
     public ResponseResult addArticle(@RequestBody AddArticleDto addArticleDto){
         return articleService.addArticle(addArticleDto);
+    }
+
+    @ApiOperation("文章列表")
+    @GetMapping("/list")
+    public ResponseResult articleList(Integer pageNum, Integer pageSize, String title, String summary){
+        return articleService.articleAdminList(pageNum,pageSize,title,summary);
     }
 
 }
