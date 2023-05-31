@@ -34,4 +34,10 @@ public class ArticleController {
         return articleService.delArticleById(id);
     }
 
+    @ApiOperation("根据id查询文章详情")
+    @GetMapping("{id}")
+    public ResponseResult selectArticleById(@PathVariable("id") Integer id){
+        return articleService.selectArticleById(id);
+    }
+
 }

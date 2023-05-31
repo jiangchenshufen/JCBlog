@@ -32,4 +32,11 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     ResponseResult delArticleById(Integer id);
+
+    /**
+     * 根据id查询文章详细
+     * @param id
+     * @return
+     */
+    ResponseResult selectArticleById(Integer id);
 }

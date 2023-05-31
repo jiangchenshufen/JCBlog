@@ -23,6 +23,7 @@ import org.springframework.util.ObjectUtils;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -161,6 +162,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             throw new RuntimeException("删除失败");
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult selectArticleById(Integer id) {
+        Article article = getBaseMapper().selectById(id);
+        LambdaQueryWrapper<ArticleTag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ArticleTag::getArticleId,id);
+        List<ArticleTag> ArticleTags = articleTagService.list(wrapper);
+        List<Long> tags = ArticleTags.stream().map(articleTag -> articleTag.getTagId()).collect(Collectors.toList());
+        ArticleShowVo articleShowVo = BeanCopyUtils.copyBean(article, ArticleShowVo.class);
+        articleShowVo.setTags(tags);
+        return ResponseResult.okResult(articleShowVo);
     }
 }
 
