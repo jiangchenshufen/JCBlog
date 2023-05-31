@@ -25,4 +25,11 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     ResponseResult articleAdminList(Integer pageNum, Integer pageSize, String title, String summary);
+
+    /**
+     * 根据id删除文章
+     * @param id
+     * @return
+     */
+    ResponseResult delArticleById(Integer id);
 }

@@ -28,4 +28,10 @@ public class ArticleController {
         return articleService.articleAdminList(pageNum,pageSize,title,summary);
     }
 
+    @ApiOperation("删除文章")
+    @DeleteMapping("{id}")
+    public ResponseResult delArticleById(@PathVariable("id") Integer id){
+        return articleService.delArticleById(id);
+    }
+
 }

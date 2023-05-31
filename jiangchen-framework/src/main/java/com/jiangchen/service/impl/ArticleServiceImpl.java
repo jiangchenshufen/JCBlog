@@ -154,6 +154,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<ArticleAdminListVo> articleAdminListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleAdminListVo.class);
         return ResponseResult.okResult(new PageVo(articleAdminListVos,page.getTotal()));
     }
+
+    @Override
+    public ResponseResult delArticleById(Integer id) {
+        if (!(getBaseMapper().deleteById(id)>0)){
+            throw new RuntimeException("删除失败");
+        }
+        return ResponseResult.okResult();
+    }
 }
 
 
