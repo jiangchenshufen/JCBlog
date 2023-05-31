@@ -2,6 +2,7 @@ package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.LinkAddDto;
+import com.jiangchen.domain.vo.LinkAdminVo;
 import com.jiangchen.service.LinkService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class LinkController {
     @GetMapping("{id}")
     public ResponseResult selectLinkById(@PathVariable("id") Long id){
         return linkService.selectLinkById(id);
+    }
+
+    @ApiOperation("修改友链信息")
+    @PutMapping()
+    public ResponseResult updateLink(@RequestBody LinkAdminVo linkAdminDto){
+        return linkService.updateLink(linkAdminDto);
     }
 
 }

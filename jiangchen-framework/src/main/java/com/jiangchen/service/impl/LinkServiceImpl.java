@@ -68,4 +68,12 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         LinkAdminVo linkAdminVo = BeanCopyUtils.copyBean(link, LinkAdminVo.class);
         return ResponseResult.okResult(linkAdminVo);
     }
+
+    @Override
+    public ResponseResult updateLink(LinkAdminVo linkAdminDto) {
+        if (!updateById(BeanCopyUtils.copyBean(linkAdminDto,Link.class))){
+            throw new RuntimeException("修改失败");
+        }
+        return ResponseResult.okResult();
+    }
 }
