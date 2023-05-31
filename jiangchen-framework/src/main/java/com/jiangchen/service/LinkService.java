@@ -2,7 +2,9 @@ package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.LinkAddDto;
 import com.jiangchen.domain.entity.Link;
+import com.jiangchen.domain.vo.LinkAdminVo;
 
 
 /**
@@ -25,4 +27,11 @@ public interface LinkService extends IService<Link> {
      * @return
      */
     ResponseResult adminLinkList(Integer pageNum, Integer pageSize, String name, String status);
+
+    /**
+     * 新增友链
+     * @param linkAdminDto
+     * @return
+     */
+    ResponseResult addLink(LinkAddDto linkAddDto);
 }

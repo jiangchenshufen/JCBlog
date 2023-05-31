@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.LinkAddDto;
 import com.jiangchen.domain.entity.Link;
 import com.jiangchen.domain.vo.LinkAdminVo;
 import com.jiangchen.domain.vo.LinkVo;
@@ -51,5 +52,13 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         page(linkPage,wrapper);
         List<LinkAdminVo> linkAdminVos = BeanCopyUtils.copyBeanList(linkPage.getRecords(), LinkAdminVo.class);
         return ResponseResult.okResult(new PageVo(linkAdminVos, linkPage.getTotal()));
+    }
+
+    @Override
+    public ResponseResult addLink(LinkAddDto linkAddDto) {
+        if (!save(BeanCopyUtils.copyBean(linkAddDto,Link.class))){
+            throw new RuntimeException("新增失败");
+        }
+        return ResponseResult.okResult();
     }
 }

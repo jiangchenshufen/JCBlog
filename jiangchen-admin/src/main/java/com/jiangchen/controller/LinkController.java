@@ -1,11 +1,10 @@
 package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.LinkAddDto;
 import com.jiangchen.service.LinkService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,6 +19,12 @@ public class LinkController {
     @GetMapping("/list")
     public ResponseResult showLinkList(Integer pageNum, Integer pageSize, String name, String status){
         return linkService.adminLinkList(pageNum, pageSize, name, status);
+    }
+
+    @ApiOperation("新增友链")
+    @PostMapping()
+    public ResponseResult addLink(@RequestBody LinkAddDto linkAddDto){
+        return linkService.addLink(linkAddDto);
     }
 
 }
