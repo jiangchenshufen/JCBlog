@@ -48,4 +48,11 @@ public interface LinkService extends IService<Link> {
      * @return
      */
     ResponseResult updateLink(LinkAdminVo linkAdminDto);
+
+    /**
+     * 根据id删除友链
+     * @param id
+     * @return
+     */
+    ResponseResult delLinkById(Long id);
 }

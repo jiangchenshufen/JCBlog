@@ -40,4 +40,10 @@ public class LinkController {
         return linkService.updateLink(linkAdminDto);
     }
 
+    @ApiOperation("删除友链信息")
+    @DeleteMapping("{id}")
+    public ResponseResult delLinkById(@PathVariable("id") Long id){
+        return linkService.delLinkById(id);
+    }
+
 }

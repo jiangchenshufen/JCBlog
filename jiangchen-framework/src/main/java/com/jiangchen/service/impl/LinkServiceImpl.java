@@ -76,4 +76,12 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         }
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult delLinkById(Long id) {
+        if (!removeById(id)){
+            throw new RuntimeException("删除失败");
+        }
+        return ResponseResult.okResult();
+    }
 }
