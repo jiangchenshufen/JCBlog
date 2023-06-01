@@ -1,10 +1,13 @@
 package com.jiangchen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
+import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Menu;
 import com.jiangchen.domain.vo.MenuVo;
+import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.mapper.MenuMapper;
 import com.jiangchen.service.MenuService;
 import com.jiangchen.utils.SecurityUtils;
@@ -49,6 +52,18 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         //构建树
         List<MenuVo> menuTree =  builderMenuTree(menuVos,0L);
         return menuTree;
+    }
+
+    @Override
+    public ResponseResult menuList(String menuName, String status) {
+        LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ObjectUtils.isNotNull(menuName),Menu::getMenuName,menuName);
+        wrapper.eq(ObjectUtils.isNotNull(status),Menu::getStatus,status);
+        List<Menu> menuList = list(wrapper);
+        if (ObjectUtils.isNotNull(menuList)){
+            return ResponseResult.okResult(menuList);
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
 
     private List<MenuVo> builderMenuTree(List<MenuVo> menuVos,Long parentId) {

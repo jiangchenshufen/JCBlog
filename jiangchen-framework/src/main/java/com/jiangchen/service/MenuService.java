@@ -1,6 +1,7 @@
 package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Menu;
 import com.jiangchen.domain.vo.MenuVo;
 import com.jiangchen.domain.vo.RoutersVo;
@@ -19,5 +20,13 @@ public interface MenuService extends IService<Menu> {
     List<String> selectPermsByUserId(Long id);
 
     List<MenuVo> selectRouterMenuTreeByUserId(Long id);
+
+    /**
+     * 菜单列表接口
+     * @param menuName
+     * @param status
+     * @return
+     */
+    ResponseResult menuList(String menuName, String status);
 }
 
