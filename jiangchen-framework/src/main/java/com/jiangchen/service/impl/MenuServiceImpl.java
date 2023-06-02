@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.MenuDto;
 import com.jiangchen.domain.entity.Menu;
 import com.jiangchen.domain.vo.MenuVo;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.mapper.MenuMapper;
 import com.jiangchen.service.MenuService;
+import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +66,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             return ResponseResult.okResult(menuList);
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResponseResult addMenu(MenuDto menuDto) {
+        return save(BeanCopyUtils.copyBean(menuDto,Menu.class)) ? ResponseResult.okResult() : ResponseResult.errorResult(AppHttpCodeEnum.SAVE_FALSE);
     }
 
     private List<MenuVo> builderMenuTree(List<MenuVo> menuVos,Long parentId) {

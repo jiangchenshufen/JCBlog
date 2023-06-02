@@ -2,6 +2,7 @@ package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.MenuDto;
 import com.jiangchen.domain.entity.Menu;
 import com.jiangchen.domain.vo.MenuVo;
 import com.jiangchen.domain.vo.RoutersVo;
@@ -28,5 +29,12 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     ResponseResult menuList(String menuName, String status);
+
+    /**
+     * 新增菜单
+     * @param menuDto
+     * @return
+     */
+    ResponseResult addMenu(MenuDto menuDto);
 }
 

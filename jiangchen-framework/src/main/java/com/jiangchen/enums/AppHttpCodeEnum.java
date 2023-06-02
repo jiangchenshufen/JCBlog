@@ -22,7 +22,9 @@ public enum AppHttpCodeEnum {
     FILE_NOT_NULL(513,"文件不能为空"),
     AVATAR_NOT_NULL(514,"头像不能为空"),
     TAG_NAME_NOT_NULL(515,"标签名不能为空"),
-    TAG_REMARK_NOT_NULL(516,"标签备注不能为空");
+    TAG_REMARK_NOT_NULL(516,"标签备注不能为空"),
+    SAVE_FALSE(517,"保存失败"),
+    ;
 
     int code;
     String msg;
