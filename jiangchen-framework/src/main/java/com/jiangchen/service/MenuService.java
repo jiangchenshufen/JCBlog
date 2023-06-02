@@ -36,5 +36,12 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     ResponseResult addMenu(MenuDto menuDto);
+
+    /**
+     * 根据id查询菜单
+     * @param id
+     * @return
+     */
+    ResponseResult selectMenuById(Long id);
 }
 

@@ -73,6 +73,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return save(BeanCopyUtils.copyBean(menuDto,Menu.class)) ? ResponseResult.okResult() : ResponseResult.errorResult(AppHttpCodeEnum.SAVE_FALSE);
     }
 
+    @Override
+    public ResponseResult selectMenuById(Long id) {
+        Menu menu = menuMapper.selectById(id);
+        MenuDto menuVo = BeanCopyUtils.copyBean(menu, MenuDto.class);
+        return ResponseResult.okResult(menuVo);
+    }
+
     private List<MenuVo> builderMenuTree(List<MenuVo> menuVos,Long parentId) {
         List<MenuVo> menuTree = menuVos.stream().filter(menuVo -> menuVo.getParentId().equals(parentId))
                 .map(menuVo -> menuVo.setChildren(getChildren(menuVo, menuVos)))

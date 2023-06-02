@@ -28,4 +28,10 @@ public class MenuController {
     public ResponseResult addMenu(@RequestBody MenuDto menuDto){
         return menuService.addMenu(menuDto);
     }
+
+    @ApiOperation("根据id查询菜单")
+    @GetMapping("{id}")
+    public ResponseResult selectMenuById(@PathVariable("id") Long id){
+        return menuService.selectMenuById(id);
+    }
 }
