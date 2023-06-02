@@ -61,6 +61,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ObjectUtils.isNotNull(menuName),Menu::getMenuName,menuName);
         wrapper.eq(ObjectUtils.isNotNull(status),Menu::getStatus,status);
+        //升序排序
+        wrapper.orderByAsc(Menu::getOrderNum);
         List<Menu> menuList = list(wrapper);
         if (ObjectUtils.isNotNull(menuList)){
             return ResponseResult.okResult(menuList);
