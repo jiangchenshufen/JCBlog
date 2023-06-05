@@ -3,6 +3,7 @@ package com.jiangchen.controller;
 import com.jiangchen.annotation.SystemLog;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.MenuDto;
+import com.jiangchen.domain.entity.Menu;
 import com.jiangchen.service.MenuService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,11 @@ public class MenuController {
     @GetMapping("{id}")
     public ResponseResult selectMenuById(@PathVariable("id") Long id){
         return menuService.selectMenuById(id);
+    }
+
+    @ApiOperation("保存菜单")
+    @PutMapping()
+    public ResponseResult updateMenu(@RequestBody Menu menu){
+        return menuService.updateMenu(menu);//TODO 前端调用错误
     }
 }

@@ -36,7 +36,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     public List<String> selectPermsByUserId(Long id) {
         //如果是管理员直接返回所=所有权限
         List<String> adminPerms = isAdmin(id);
-        if (Objects.nonNull(adminPerms)){
+        if (Objects.nonNull(adminPerms)) {
             return adminPerms;
         }
         //否则返回所具有的所有权限
@@ -46,25 +46,25 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public List<MenuVo> selectRouterMenuTreeByUserId(Long id) {
         List<MenuVo> menuVos = null;
-        if (SecurityUtils.isAdmin()){
+        if (SecurityUtils.isAdmin()) {
             menuVos = menuMapper.selectAllRouterMenu();
-        }else{
+        } else {
             menuVos = menuMapper.selectRouterMenuTreeByUserId(id);
         }
         //构建树
-        List<MenuVo> menuTree =  builderMenuTree(menuVos,0L);
+        List<MenuVo> menuTree = builderMenuTree(menuVos, 0L);
         return menuTree;
     }
 
     @Override
     public ResponseResult menuList(String menuName, String status) {
         LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ObjectUtils.isNotNull(menuName),Menu::getMenuName,menuName);
-        wrapper.eq(ObjectUtils.isNotNull(status),Menu::getStatus,status);
+        wrapper.eq(ObjectUtils.isNotNull(menuName), Menu::getMenuName, menuName);
+        wrapper.eq(ObjectUtils.isNotNull(status), Menu::getStatus, status);
         //升序排序
         wrapper.orderByAsc(Menu::getOrderNum);
         List<Menu> menuList = list(wrapper);
-        if (ObjectUtils.isNotNull(menuList)){
+        if (ObjectUtils.isNotNull(menuList)) {
             return ResponseResult.okResult(menuList);
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
@@ -72,7 +72,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public ResponseResult addMenu(MenuDto menuDto) {
-        return save(BeanCopyUtils.copyBean(menuDto,Menu.class)) ? ResponseResult.okResult() : ResponseResult.errorResult(AppHttpCodeEnum.SAVE_FALSE);
+        return save(BeanCopyUtils.copyBean(menuDto, Menu.class)) ? ResponseResult.okResult() : ResponseResult.errorResult(AppHttpCodeEnum.SAVE_FALSE);
     }
 
     @Override
@@ -82,7 +82,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return ResponseResult.okResult(menuVo);
     }
 
-    private List<MenuVo> builderMenuTree(List<MenuVo> menuVos,Long parentId) {
+    @Override
+    public ResponseResult updateMenu(Menu menu) {
+        if (!menu.getParentId().equals(menu.getId())) {
+            updateById(menu);
+            return ResponseResult.okResult();
+        } else {
+            return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR.getCode(),"不能将目标菜单放入目标菜单下");
+        }
+    }
+
+    private List<MenuVo> builderMenuTree(List<MenuVo> menuVos, Long parentId) {
         List<MenuVo> menuTree = menuVos.stream().filter(menuVo -> menuVo.getParentId().equals(parentId))
                 .map(menuVo -> menuVo.setChildren(getChildren(menuVo, menuVos)))
                 .collect(Collectors.toList());
@@ -91,6 +101,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     /**
      * 获取传入list的子菜单
+     *
      * @param menuVo
      * @param menuVos
      * @return
@@ -98,15 +109,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     private List<MenuVo> getChildren(MenuVo menuVo, List<MenuVo> menuVos) {
         return menuVos.stream()
                 .filter(menu -> menu.getParentId().equals(menuVo.getId()))
-                .map(menu -> menu.setChildren(getChildren(menu,menuVos)))
+                .map(menu -> menu.setChildren(getChildren(menu, menuVos)))
                 .collect(Collectors.toList());
     }
 
-    public List<String> isAdmin(Long id){
-        if (id.equals(1L)){
+    public List<String> isAdmin(Long id) {
+        if (id.equals(1L)) {
             LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.in(Menu::getMenuType, SystemConstants.MENU,SystemConstants.BUTTON);
-            wrapper.eq(Menu::getStatus,SystemConstants.STATUS_NORMAL);
+            wrapper.in(Menu::getMenuType, SystemConstants.MENU, SystemConstants.BUTTON);
+            wrapper.eq(Menu::getStatus, SystemConstants.STATUS_NORMAL);
             List<Menu> menuList = list(wrapper);
             List<String> collect = menuList.stream().map(Menu::getPerms).collect(Collectors.toList());
             return collect;
