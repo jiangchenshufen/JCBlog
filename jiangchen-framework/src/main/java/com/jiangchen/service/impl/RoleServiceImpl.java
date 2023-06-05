@@ -9,6 +9,7 @@ import com.jiangchen.domain.dto.RoleAddDeo;
 import com.jiangchen.domain.entity.Role;
 import com.jiangchen.domain.entity.RoleMenu;
 import com.jiangchen.domain.vo.PageVo;
+import com.jiangchen.domain.vo.RoleUpdateVo;
 import com.jiangchen.domain.vo.RoleVo;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.mapper.RoleMapper;
@@ -70,6 +71,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult selectRoleById(Long id) {
+        Role role = getBaseMapper().selectById(id);
+        if (ObjectUtils.isEmpty(role)){
+            return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+        RoleUpdateVo roleUpdateVo = BeanCopyUtils.copyBean(role, RoleUpdateVo.class);
+        return ResponseResult.okResult(roleUpdateVo);
     }
 
     private List<String> isAdmin(Long id) {

@@ -36,5 +36,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     ResponseResult addRole(RoleAddDeo roleAddDeo);
+
+    /**
+     * 根据id查询角色
+     * @param id
+     * @return
+     */
+    ResponseResult selectRoleById(Long id);
 }
 

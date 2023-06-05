@@ -26,4 +26,11 @@ public class RoleController {
         return roleService.addRole(roleAddDeo);
     }
 
+    @ApiOperation("根据id查询角色")
+    @GetMapping("{id}")
+    public ResponseResult selectRoleById(@PathVariable("id") Long id){
+        return roleService.selectRoleById(id);
+    }
+
+
 }
