@@ -3,6 +3,8 @@ package com.jiangchen.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.jiangchen.domain.entity.RoleMenu;
 
+import java.util.List;
+
 
 /**
  * 角色和菜单关联表(RoleMenu)表数据库访问层
@@ -12,5 +14,6 @@ import com.jiangchen.domain.entity.RoleMenu;
  */
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 
+    List<Long> selectByRoleId(Long roleId);
 }
 

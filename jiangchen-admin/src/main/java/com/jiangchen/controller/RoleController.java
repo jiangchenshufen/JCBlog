@@ -2,6 +2,7 @@ package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RoleAddDeo;
+import com.jiangchen.domain.vo.SaveRoleVo;
 import com.jiangchen.service.RoleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,9 @@ public class RoleController {
         return roleService.selectRoleById(id);
     }
 
-
+    @ApiOperation("更新角色")
+    @PutMapping
+    public ResponseResult saveRole(@RequestBody SaveRoleVo saveRoleVo){
+        return roleService.saveRole(saveRoleVo);
+    }
 }

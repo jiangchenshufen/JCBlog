@@ -54,4 +54,11 @@ public class MenuController {
         return menuService.selectMenuTree();
     }
 
+
+    @ApiOperation("根据id查询菜单树")
+    @GetMapping("/roleMenuTreeselect/{id}")
+    public ResponseResult roleMenuSelectTreeById(@PathVariable("id") Long id){
+        return menuService.roleMenuSelectTreeById(id);
+    }
+
 }

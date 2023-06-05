@@ -63,5 +63,12 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     ResponseResult selectMenuTree();
+
+    /**
+     * 根据id查询菜单树
+     * @param id
+     * @return
+     */
+    ResponseResult roleMenuSelectTreeById(Long id);
 }
 

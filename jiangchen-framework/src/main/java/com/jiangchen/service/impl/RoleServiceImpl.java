@@ -11,6 +11,7 @@ import com.jiangchen.domain.entity.RoleMenu;
 import com.jiangchen.domain.vo.PageVo;
 import com.jiangchen.domain.vo.RoleUpdateVo;
 import com.jiangchen.domain.vo.RoleVo;
+import com.jiangchen.domain.vo.SaveRoleVo;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.mapper.RoleMapper;
 import com.jiangchen.service.RoleMenuService;
@@ -81,6 +82,27 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
         RoleUpdateVo roleUpdateVo = BeanCopyUtils.copyBean(role, RoleUpdateVo.class);
         return ResponseResult.okResult(roleUpdateVo);
+    }
+
+    @Override
+    public ResponseResult saveRole(SaveRoleVo saveRoleVo) {
+        Role role = BeanCopyUtils.copyBean(saveRoleVo, Role.class);
+        if (!updateById(role)){
+            return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+        ArrayList<RoleMenu> roleMenus = new ArrayList<>();
+        for (Long menuId : saveRoleVo.getMenuIds()) {
+            roleMenus.add(new RoleMenu(saveRoleVo.getId(),menuId));
+        }
+        //删除角色菜单关联表中信息
+        LambdaQueryWrapper<RoleMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(RoleMenu::getRoleId,saveRoleVo.getId());
+        if (roleMenuService.getBaseMapper().delete(queryWrapper) > 0){
+            if (roleMenuService.saveBatch(roleMenus)){
+                return ResponseResult.okResult();
+            }
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
 
     private List<String> isAdmin(Long id) {

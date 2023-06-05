@@ -7,10 +7,12 @@ import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.MenuDto;
 import com.jiangchen.domain.entity.Menu;
+import com.jiangchen.domain.vo.MenuKeysVo;
 import com.jiangchen.domain.vo.MenuTreeVo;
 import com.jiangchen.domain.vo.MenuVo;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.mapper.MenuMapper;
+import com.jiangchen.mapper.RoleMenuMapper;
 import com.jiangchen.service.MenuService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.SecurityUtils;
@@ -20,8 +22,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +35,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Resource
     private MenuMapper menuMapper;
+
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public List<String> selectPermsByUserId(Long id) {
@@ -106,14 +109,27 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public ResponseResult selectMenuTree() {
+        return ResponseResult.okResult(createTree());
+
+    }
+
+    @Override
+    public ResponseResult roleMenuSelectTreeById(Long id) {
+        List<Long> menuKeys = roleMenuMapper.selectByRoleId(id);
+        return ResponseResult.okResult(new MenuKeysVo(createTree(),menuKeys));
+    }
+
+    /**
+     * 创建菜单树
+     * @return
+     */
+    public List<MenuTreeVo> createTree(){
         List<Menu> menus = getBaseMapper().selectAllMenu();
         ArrayList<MenuTreeVo> menuTreeVos = new ArrayList<>();
         for (Menu menu : menus) {
             menuTreeVos.add(new MenuTreeVo(menu.getId(),menu.getParentId(),menu.getMenuName(),null));
         }
-        List<MenuTreeVo> treeVos = builderMenuTrees(menuTreeVos, 0L);
-        return ResponseResult.okResult(treeVos);
-
+        return builderMenuTrees(menuTreeVos, 0L);
     }
 
     private List<MenuTreeVo> builderMenuTrees(List<MenuTreeVo> menuTreeVos, Long parentId) {

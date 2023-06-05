@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RoleAddDeo;
 import com.jiangchen.domain.entity.Role;
+import com.jiangchen.domain.vo.SaveRoleVo;
 
 import java.util.List;
 
@@ -43,5 +44,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     ResponseResult selectRoleById(Long id);
+
+    /**
+     * 更新角色信息
+     * @param saveRoleVo
+     * @return
+     */
+    ResponseResult saveRole(SaveRoleVo saveRoleVo);
 }
 
