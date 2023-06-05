@@ -1,6 +1,7 @@
 package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.entity.Role;
 
 import java.util.List;
@@ -15,5 +16,17 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
     List<String> selectRoleKeyByUserId(Long id);
+
+    /**
+     * 角色列表分页查询的功能
+     * 角色名称进行模糊查询
+     * 状态进行查询
+     * @param pageNum
+     * @param pageSize
+     * @param roleName
+     * @param status
+     * @return
+     */
+    ResponseResult roleList(Integer pageNum, Integer pageSize, String roleName, String status);
 }
 
