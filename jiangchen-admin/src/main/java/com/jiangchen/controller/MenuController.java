@@ -41,4 +41,11 @@ public class MenuController {
     public ResponseResult updateMenu(@RequestBody Menu menu){
         return menuService.updateMenu(menu);//TODO 前端调用错误
     }
+
+    @ApiOperation("根据id查询菜单")
+    @DeleteMapping("{id}")
+    public ResponseResult delMenuById(@PathVariable("id") Long id){
+        return menuService.delMenuById(id);
+    }
+
 }

@@ -92,6 +92,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         }
     }
 
+    @Override
+    public ResponseResult delMenuById(Long id) {
+        if (getBaseMapper().deleteById(id) > 0){
+            return ResponseResult.okResult();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
     private List<MenuVo> builderMenuTree(List<MenuVo> menuVos, Long parentId) {
         List<MenuVo> menuTree = menuVos.stream().filter(menuVo -> menuVo.getParentId().equals(parentId))
                 .map(menuVo -> menuVo.setChildren(getChildren(menuVo, menuVos)))
