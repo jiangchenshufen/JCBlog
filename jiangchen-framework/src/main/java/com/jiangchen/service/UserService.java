@@ -31,4 +31,18 @@ public interface UserService extends IService<User> {
      * @return
      */
     ResponseResult updateUserInfo(UpdateUserInfoDto updateUserInfoDto);
+
+    /**
+     * 用户分页列表
+     * 根据用户名模糊搜索
+     * 进行手机号的搜索
+     * 进行状态的查询
+     * @param pageNum
+     * @param pageSize
+     * @param userName
+     * @param phonenumber
+     * @param status
+     * @return
+     */
+    ResponseResult userlist(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
 }

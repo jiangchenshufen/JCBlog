@@ -1,11 +1,13 @@
 package com.jiangchen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.domain.entity.User;
+import com.jiangchen.domain.vo.PageVo;
 import com.jiangchen.domain.vo.UserInfoVo;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.exception.SystemException;
@@ -67,6 +69,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = BeanCopyUtils.copyBean(updateUserInfoDto, User.class);
         updateById(user);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult userlist(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(!ObjectUtils.isEmpty(userName),User::getUserName,userName);
+        wrapper.eq(!ObjectUtils.isEmpty(phonenumber),User::getPhonenumber,phonenumber);
+        wrapper.eq(!ObjectUtils.isEmpty(status),User::getStatus,status);
+        Page<User> page = new Page<>();
+        page.setCurrent(pageNum).setSize(pageSize);
+        page(page,wrapper);
+        return ResponseResult.okResult(new PageVo(page.getRecords(),page.getTotal()));
     }
 
     private void infoWhetherExists(UserRegisterDto userRegisterDto){
