@@ -1,7 +1,9 @@
 package com.jiangchen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jiangchen.domain.dto.RoleChangeStatusDto;
 import com.jiangchen.domain.entity.Role;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +17,7 @@ import java.util.List;
 public interface RoleMapper extends BaseMapper<Role> {
 
     List<String> selectRoleKeyByUserId(Long userId);
+
+    boolean changeStatus(@Param("roleId") Long roleId, @Param("status") String status);
 }
 

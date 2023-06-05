@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.constants.SystemConstants;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RoleAddDeo;
+import com.jiangchen.domain.dto.RoleChangeStatusDto;
 import com.jiangchen.domain.entity.Role;
 import com.jiangchen.domain.entity.RoleMenu;
 import com.jiangchen.domain.vo.PageVo;
@@ -108,6 +109,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public ResponseResult delRoleById(Long id) {
         if (!(getBaseMapper().deleteById(id) > 0)){
+            return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult changeStatus(RoleChangeStatusDto roleChangeStatusDto) {
+        if (!getBaseMapper().changeStatus(roleChangeStatusDto.getRoleId(),roleChangeStatusDto.getStatus())){
             return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
         }
         return ResponseResult.okResult();

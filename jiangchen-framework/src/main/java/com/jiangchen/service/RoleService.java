@@ -3,6 +3,7 @@ package com.jiangchen.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RoleAddDeo;
+import com.jiangchen.domain.dto.RoleChangeStatusDto;
 import com.jiangchen.domain.entity.Role;
 import com.jiangchen.domain.vo.SaveRoleVo;
 
@@ -58,5 +59,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     ResponseResult delRoleById(Long id);
+
+    /**
+     * 根据roleId修改状态
+     * @param roleChangeStatusDto
+     * @return
+     */
+    ResponseResult changeStatus(RoleChangeStatusDto roleChangeStatusDto);
 }
 

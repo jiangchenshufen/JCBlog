@@ -2,6 +2,7 @@ package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RoleAddDeo;
+import com.jiangchen.domain.dto.RoleChangeStatusDto;
 import com.jiangchen.domain.vo.SaveRoleVo;
 import com.jiangchen.service.RoleService;
 import io.swagger.annotations.ApiOperation;
@@ -43,5 +44,11 @@ public class RoleController {
     @DeleteMapping("{id}")
     public ResponseResult delRoleById(@PathVariable("id") Long id){
         return roleService.delRoleById(id);
+    }
+
+    @ApiOperation("根据id修改状态")
+    @PutMapping("/changeStatus")
+    public ResponseResult updateRole(@RequestBody RoleChangeStatusDto roleChangeStatusDto){
+        return roleService.changeStatus(roleChangeStatusDto);
     }
 }
