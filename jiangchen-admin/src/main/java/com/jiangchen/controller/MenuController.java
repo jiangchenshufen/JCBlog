@@ -48,4 +48,10 @@ public class MenuController {
         return menuService.delMenuById(id);
     }
 
+    @ApiOperation("获取菜单树")
+    @GetMapping("/treeselect")
+    public ResponseResult selectMenuTree(){
+        return menuService.selectMenuTree();
+    }
+
 }

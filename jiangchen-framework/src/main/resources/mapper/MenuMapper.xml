@@ -58,4 +58,15 @@
         ORDER BY
             m.parent_id,m.order_num
     </select>
+    <select id="selectAllMenu" resultType="com.jiangchen.domain.entity.Menu">
+        SELECT
+            m.id,m.parent_id,m.menu_name
+        FROM
+            sys_menu m
+        WHERE
+            m.`status` = 0
+          AND m.del_flag = 0
+        ORDER BY
+            m.parent_id,m.order_num
+    </select>
 </mapper>

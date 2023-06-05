@@ -57,5 +57,11 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     ResponseResult delMenuById(Long id);
+
+    /**
+     * 获取权限对象树
+     * @return
+     */
+    ResponseResult selectMenuTree();
 }
 
