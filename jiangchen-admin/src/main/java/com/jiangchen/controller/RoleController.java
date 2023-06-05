@@ -51,4 +51,10 @@ public class RoleController {
     public ResponseResult updateRole(@RequestBody RoleChangeStatusDto roleChangeStatusDto){
         return roleService.changeStatus(roleChangeStatusDto);
     }
+
+    @ApiOperation("查询的是所有状态正常的角色")
+    @GetMapping("/listAllRole")
+    public ResponseResult statusNormalRoleList(){
+        return roleService.statusNormalRoleList();
+    }
 }

@@ -66,5 +66,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     ResponseResult changeStatus(RoleChangeStatusDto roleChangeStatusDto);
+
+    /**
+     * 查询的是所有状态正常的角色
+     * @return
+     */
+    ResponseResult statusNormalRoleList();
+
 }
 

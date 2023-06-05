@@ -122,6 +122,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult statusNormalRoleList() {
+        LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Role::getStatus,SystemConstants.NORMAL);
+        return ResponseResult.okResult(list(wrapper));
+    }
+
     private List<String> isAdmin(Long id) {
         if (id.equals(1L)){
             ArrayList<String> arrayList = new ArrayList<>();
