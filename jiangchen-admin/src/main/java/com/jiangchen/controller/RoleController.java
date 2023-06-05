@@ -1,10 +1,10 @@
 package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.RoleAddDeo;
 import com.jiangchen.service.RoleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -18,6 +18,12 @@ public class RoleController {
     @GetMapping("/list")
     public ResponseResult roleList(Integer pageNum, Integer pageSize, String roleName, String status){
        return roleService.roleList(pageNum, pageSize, roleName, status);
+    }
+
+    @ApiOperation("新增角色")
+    @PostMapping()
+    public ResponseResult addRole(@RequestBody RoleAddDeo roleAddDeo){
+        return roleService.addRole(roleAddDeo);
     }
 
 }

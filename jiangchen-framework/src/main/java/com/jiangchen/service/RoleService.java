@@ -2,6 +2,7 @@ package com.jiangchen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.RoleAddDeo;
 import com.jiangchen.domain.entity.Role;
 
 import java.util.List;
@@ -28,5 +29,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     ResponseResult roleList(Integer pageNum, Integer pageSize, String roleName, String status);
+
+    /**
+     * 新增角色
+     * @param roleAddDeo
+     * @return
+     */
+    ResponseResult addRole(RoleAddDeo roleAddDeo);
 }
 
