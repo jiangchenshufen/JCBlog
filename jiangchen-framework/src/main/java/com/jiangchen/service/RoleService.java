@@ -51,5 +51,12 @@ public interface RoleService extends IService<Role> {
      * @return
      */
     ResponseResult saveRole(SaveRoleVo saveRoleVo);
+
+    /**
+     * 根据id删除角色
+     * @param id
+     * @return
+     */
+    ResponseResult delRoleById(Long id);
 }
 

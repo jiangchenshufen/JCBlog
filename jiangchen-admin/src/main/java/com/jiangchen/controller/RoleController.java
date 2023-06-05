@@ -38,4 +38,10 @@ public class RoleController {
     public ResponseResult saveRole(@RequestBody SaveRoleVo saveRoleVo){
         return roleService.saveRole(saveRoleVo);
     }
+
+    @ApiOperation("根据id删除角色")
+    @DeleteMapping("{id}")
+    public ResponseResult delRoleById(@PathVariable("id") Long id){
+        return roleService.delRoleById(id);
+    }
 }

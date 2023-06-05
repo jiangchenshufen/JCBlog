@@ -105,6 +105,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
 
+    @Override
+    public ResponseResult delRoleById(Long id) {
+        if (!(getBaseMapper().deleteById(id) > 0)){
+            return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+        return ResponseResult.okResult();
+    }
+
     private List<String> isAdmin(Long id) {
         if (id.equals(1L)){
             ArrayList<String> arrayList = new ArrayList<>();
