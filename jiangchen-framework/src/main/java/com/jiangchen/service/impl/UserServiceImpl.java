@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.domain.ResponseResult;
+import com.jiangchen.domain.dto.RegisterUserDto;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.domain.entity.User;
@@ -81,6 +82,44 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         page.setCurrent(pageNum).setSize(pageSize);
         page(page,wrapper);
         return ResponseResult.okResult(new PageVo(page.getRecords(),page.getTotal()));
+    }
+
+    @Override
+    public ResponseResult registerUser(RegisterUserDto registerUserDto) {
+        userRegisterAssertion(registerUserDto);
+        User user = BeanCopyUtils.copyBean(registerUserDto, User.class);
+        user.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
+        if (save(user)){
+            return ResponseResult.okResult();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    /**
+     * 断言
+     * @param registerUserDto
+     */
+    private void userRegisterAssertion(RegisterUserDto registerUserDto) {
+        UserRegisterDto userRegisterDto = BeanCopyUtils.copyBean(registerUserDto, UserRegisterDto.class);
+        if (!StringUtils.hasText(userRegisterDto.getUserName())){
+            throw new SystemException(AppHttpCodeEnum.USERNAME_NOT_NULL);
+        }
+        if (!StringUtils.hasText(userRegisterDto.getPassword())){
+            throw new SystemException(AppHttpCodeEnum.PASSWORD_NOT_NULL);
+        }
+        if (!StringUtils.hasText(userRegisterDto.getNickName())){
+            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        }
+        infoWhetherExists(userRegisterDto);
+        if (phonenumberExist(registerUserDto.getPhonenumber())){
+            throw new SystemException(AppHttpCodeEnum.PHONENUMBER_EXIST);
+        }
+    }
+
+    private boolean phonenumberExist(String phonenumber) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getPhonenumber,phonenumber);
+        return count(wrapper) > 0;
     }
 
     private void infoWhetherExists(UserRegisterDto userRegisterDto){
