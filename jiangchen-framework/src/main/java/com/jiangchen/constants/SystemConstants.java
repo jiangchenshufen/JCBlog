@@ -66,6 +66,10 @@ public class SystemConstants {
      * 正常状态
      */
     public static final String NORMAL = "0";
+    /**
+     * type管理员
+     */
+    public static final String ADMIN = "1";
 }
 
 

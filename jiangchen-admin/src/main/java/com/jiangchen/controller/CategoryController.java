@@ -13,6 +13,7 @@ import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.WebUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -65,6 +66,7 @@ public class CategoryController {
         return categoryService.delCategoryById(id);
     }
 
+    @PreAuthorize("ps.hasPermissions('content:category:export')")
     @ApiOperation("导出分类列表")
     @GetMapping("/export")
     public void exportCategory(HttpServletResponse response){
