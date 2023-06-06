@@ -58,7 +58,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //修改文章浏览量从redis中获取
         articles.stream().forEach(article -> {
             Integer value = redisCache.getCacheMapValue(SystemConstants.REDIS_ARTICLE_VIEWS, article.getId().toString());
-            article.setViewCount(value.longValue());
+            if (!ObjectUtils.isEmpty(value)) {
+                article.setViewCount(value.longValue());
+            }
         });
         //bean拷贝
 //        List<HotArticleVo> articleVos = new ArrayList<>();
@@ -90,7 +92,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //修改文章浏览量从redis中获取
         articles.stream().forEach(article -> {
             Integer value = redisCache.getCacheMapValue(SystemConstants.REDIS_ARTICLE_VIEWS, article.getId().toString());
-            article.setViewCount(value.longValue());
+            if (!ObjectUtils.isEmpty(value)){
+                article.setViewCount(value.longValue());
+            }
         });
         //查询categoryName
         List<Article> collect = articles.stream()
