@@ -7,12 +7,13 @@ import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RegisterUserDto;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
+import com.jiangchen.domain.entity.Role;
 import com.jiangchen.domain.entity.User;
-import com.jiangchen.domain.vo.PageVo;
-import com.jiangchen.domain.vo.UserInfoVo;
+import com.jiangchen.domain.vo.*;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.exception.SystemException;
 import com.jiangchen.mapper.UserMapper;
+import com.jiangchen.service.RoleService;
 import com.jiangchen.service.UserService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.SecurityUtils;
@@ -23,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 用户表(User)表服务实现类
@@ -35,6 +37,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private RoleService roleService;
 
     @Override
     public ResponseResult userInfo() {
@@ -103,6 +108,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseResult.okResult();
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResponseResult selectUserById(Long id) {
+        UserMapper mapper = getBaseMapper();
+        //获取roleIds
+        List<Long> roleIds = mapper.selectRoleIdsById(id);
+        List<Role> roleList = roleService.list();
+        List<roleAdminVo> roleAdminVos = BeanCopyUtils.copyBeanList(roleList, roleAdminVo.class);
+        //获取user信息
+        UserAdminVo userAdminVo = BeanCopyUtils.copyBean(mapper.selectById(id), UserAdminVo.class);
+        return ResponseResult.okResult(new UserRoleVo(roleIds,roleAdminVos,userAdminVo));
     }
 
     /**

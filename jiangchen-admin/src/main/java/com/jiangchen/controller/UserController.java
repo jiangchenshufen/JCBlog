@@ -33,4 +33,10 @@ public class UserController {
         return userService.delUserById(id);
     }
 
+    @ApiOperation("根据id查询用户信息")
+    @GetMapping("{id}")
+    public ResponseResult selectUserById(@PathVariable("id") Long id){
+        return userService.selectUserById(id);
+    }
+
 }

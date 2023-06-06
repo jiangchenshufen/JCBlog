@@ -2,6 +2,9 @@ package com.jiangchen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.jiangchen.domain.entity.User;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -12,4 +15,10 @@ import com.jiangchen.domain.entity.User;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 根据id查询关联的角色ids
+     * @param userId
+     * @return
+     */
+    List<Long> selectRoleIdsById(Long userId);
 }

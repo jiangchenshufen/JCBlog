@@ -60,4 +60,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     ResponseResult delUserById(String id);
+
+    /**
+     * 根据id查询用户信息
+     * @param id
+     * @return
+     */
+    ResponseResult selectUserById(Long id);
 }
