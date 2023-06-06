@@ -53,4 +53,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     ResponseResult registerUser(RegisterUserDto registerUserDto);
+
+    /**
+     * 根据id删除用户
+     * @param id
+     * @return
+     */
+    ResponseResult delUserById(String id);
 }

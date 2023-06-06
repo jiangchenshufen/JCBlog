@@ -22,6 +22,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * 用户表(User)表服务实现类
@@ -90,6 +91,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = BeanCopyUtils.copyBean(registerUserDto, User.class);
         user.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
         if (save(user)){
+            return ResponseResult.okResult();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResponseResult delUserById(String id) {
+        String [] ids = id.split(",");
+        if (getBaseMapper().deleteBatchIds(Arrays.asList(ids)) > ids.length-1){
             return ResponseResult.okResult();
         }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);

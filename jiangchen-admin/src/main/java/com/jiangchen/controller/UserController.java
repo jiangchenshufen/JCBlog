@@ -27,4 +27,10 @@ public class UserController {
         return userService.registerUser(registerUserDto);
     }
 
+    @ApiOperation("根据id删除用户")
+    @DeleteMapping("{id}")
+    public ResponseResult delUserById(@PathVariable("id") String id){
+        return userService.delUserById(id);
+    }
+
 }
