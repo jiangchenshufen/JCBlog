@@ -2,6 +2,7 @@ package com.jiangchen.controller;
 
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RegisterUserDto;
+import com.jiangchen.domain.dto.UpdateUserDto;
 import com.jiangchen.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,12 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseResult selectUserById(@PathVariable("id") Long id){
         return userService.selectUserById(id);
+    }
+
+    @ApiOperation("更新用户信息")
+    @PutMapping()
+    public ResponseResult updateUser(@RequestBody UpdateUserDto updateUserDto){
+        return userService.updateUser(updateUserDto);
     }
 
 }

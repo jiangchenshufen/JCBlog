@@ -5,15 +5,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RegisterUserDto;
+import com.jiangchen.domain.dto.UpdateUserDto;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.domain.entity.Role;
 import com.jiangchen.domain.entity.User;
+import com.jiangchen.domain.entity.UserRole;
 import com.jiangchen.domain.vo.*;
 import com.jiangchen.enums.AppHttpCodeEnum;
 import com.jiangchen.exception.SystemException;
 import com.jiangchen.mapper.UserMapper;
+import com.jiangchen.mapper.UserRoleMapper;
 import com.jiangchen.service.RoleService;
+import com.jiangchen.service.UserRoleService;
 import com.jiangchen.service.UserService;
 import com.jiangchen.utils.BeanCopyUtils;
 import com.jiangchen.utils.SecurityUtils;
@@ -23,8 +27,10 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户表(User)表服务实现类
@@ -40,6 +46,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private RoleService roleService;
+
+    @Resource
+    private UserRoleService userRoleService;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public ResponseResult userInfo() {
@@ -120,6 +132,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //获取user信息
         UserAdminVo userAdminVo = BeanCopyUtils.copyBean(mapper.selectById(id), UserAdminVo.class);
         return ResponseResult.okResult(new UserRoleVo(roleIds,roleAdminVos,userAdminVo));
+    }
+
+    @Override
+    public ResponseResult updateUser(UpdateUserDto updateUserDto) {
+        //去除roleIds的空数据
+        List<Long> roleIds = updateUserDto.getRoleIds().stream().filter(roleId -> com.baomidou.mybatisplus.core.toolkit.ObjectUtils.isNotNull(roleId)).collect(Collectors.toList());
+        //保存用户信息
+        User user = BeanCopyUtils.copyBean(updateUserDto, User.class);
+        if (!updateById(user)){
+            throw new RuntimeException("用户信息保存失败");
+        }
+        //保存用户关联的角色
+        Long userId = updateUserDto.getId();
+        if (userRoleMapper.selectAllById(userId) > 0) {
+            userRoleMapper.deleteAllById(userId);
+        }
+        ArrayList<UserRole> userRoleList = new ArrayList<>();
+//        for (Long roleId : roleIds) {
+//            userRoleList.add(new UserRole(user.getId(),roleId));
+//        }
+        roleIds.stream().forEach(roleId -> userRoleList.add(new UserRole(user.getId(),roleId)));
+        if (!userRoleService.saveBatch(userRoleList)){
+            throw new RuntimeException("用户角色信息保存失败");
+        }
+        return ResponseResult.okResult();
     }
 
     /**

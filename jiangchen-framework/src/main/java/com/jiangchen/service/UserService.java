@@ -3,6 +3,7 @@ package com.jiangchen.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiangchen.domain.ResponseResult;
 import com.jiangchen.domain.dto.RegisterUserDto;
+import com.jiangchen.domain.dto.UpdateUserDto;
 import com.jiangchen.domain.dto.UpdateUserInfoDto;
 import com.jiangchen.domain.dto.UserRegisterDto;
 import com.jiangchen.domain.entity.User;
@@ -67,4 +68,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     ResponseResult selectUserById(Long id);
+
+    /**
+     * 更新用户信息
+     * @param updateUserDto
+     * @return
+     */
+    ResponseResult updateUser(UpdateUserDto updateUserDto);
 }
