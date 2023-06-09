@@ -156,8 +156,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult articleAdminList(Integer pageNum, Integer pageSize, String title, String summary) {
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(!ObjectUtils.isEmpty(title),Article::getTitle,title);
-        wrapper.eq(!ObjectUtils.isEmpty(summary),Article::getSummary,summary);
+        wrapper.like(!ObjectUtils.isEmpty(title),Article::getTitle,title);
+        wrapper.like(!ObjectUtils.isEmpty(summary),Article::getSummary,summary);
+//        wrapper.eq(!ObjectUtils.isEmpty(title),Article::getTitle,title);
+//        wrapper.eq(!ObjectUtils.isEmpty(summary),Article::getSummary,summary);
         Page<Article> page = new Page<>();
         page.setCurrent(pageNum).setSize(pageSize);
         page(page,wrapper);
